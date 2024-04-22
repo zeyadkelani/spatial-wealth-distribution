@@ -24,6 +24,7 @@ async function getNearby(
         keyword: config.searchTerm,
         radius: searchRadiusInMeters,
         location: latLongPoint,
+        language: config.language,
         pagetoken,
       },
     })
@@ -103,7 +104,7 @@ async function run() {
   console.log(`Grid transversal complete...`);
 
   console.log(
-    `discovered ${places.length} ${config.placeType}s, of which ${placesWithDetails.length} are unique`
+    `discovered ${places.length} ${config.searchTerm}s, of which ${placesWithDetails.length} are unique`
   );
 
   const processedPlaces = processPlaces(placesWithDetails);
