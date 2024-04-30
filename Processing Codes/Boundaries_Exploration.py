@@ -6,7 +6,9 @@ import json
 #import shapely
 #from shapely.geometry import box
 
-gdf = gpd.read_file('/Users/nourabdelbaki/Desktop/Personal/Work/Spatial/Data/egy_admbnda_adm3_capmas_20170421/egy_admbnda_adm3_capmas_20170421.shp',
+wd_file = '/Users/nourabdelbaki/Desktop/Personal/Work/Spatial/Data/egy_admbnda_adm3_capmas_20170421/egy_admbnda_adm3_capmas_20170421.shp'
+
+gdf = gpd.read_file(wd_file,
                     encoding='UTF-8')
 
 f, axes = plt.subplots(1, figsize=(12, 12))
@@ -64,29 +66,14 @@ plt.show()
 # Should give you Al-Gazeera, which on this map, you cannot see, but
 # you can confirm its Admin 2, which is: Dikirnis
 
-#### lat range, long range for Places API, rest for reference?
-
-# def lat_long_ranges(square):
-#     ''' DOC STRING HERE'''
-#     lat_range = []
-#     long_range = []
-#     lat_range.append(square.bounds[0])
-#     lat_range.append(square.bounds[2])
-#     long_range.append(square.bounds[1])
-#     long_range.append(square.bounds[3])
-
-#     return lat_range, long_range
-
-# gdf['squares'].apply(lambda x: lat_long_ranges(x))
-
 data_list = []
 for index, row in gdf.iterrows():
   data_list.append({'ADM3': row['ADM3_AR'], 'ADM2': row['ADM2_AR'],
     'ADM1': row['ADM1_AR'], 
-    'lat_range':[row['squares'].bounds[0], row['squares'].bounds[2]],
-    'long_range':[row['squares'].bounds[1], row['squares'].bounds[3]]})
+    'lat_range':[row['squares'].bounds[1], row['squares'].bounds[3]],
+    'long_range':[row['squares'].bounds[0], row['squares'].bounds[2]]})
 
-with open('output.json', 'w', encoding='utf-8') as outfile:
+with open('output2.json', 'w', encoding='utf-8') as outfile:
    json.dump(data_list, outfile, ensure_ascii=False)
 
 #to read it in, use:
