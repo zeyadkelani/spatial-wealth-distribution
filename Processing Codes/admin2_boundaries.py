@@ -49,3 +49,4 @@ with open('all_admin2_boundaries.json', 'w', encoding='utf-8') as outfile:
 #to read it in, use:
 # with open("file_name.json") as f:
 #     data = json.load(f)
+   
