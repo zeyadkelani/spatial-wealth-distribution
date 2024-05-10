@@ -48,7 +48,7 @@ async function getNearby(
   }
 }
 
-async function getAllPlaces(latLongPoint, searchRadiusInMeters, grid) {
+async function getAllPlaces(latLongPoint, searchRadiusInMeters, grid, count) {
   console.log("getting places from: ", latLongPoint, " ", searchRadiusInMeters);
   const placesFromGoogle = await getNearby(
     searchRadiusInMeters,
@@ -61,13 +61,17 @@ async function getAllPlaces(latLongPoint, searchRadiusInMeters, grid) {
       [latLongPoint[1] - grid.longStep, latLongPoint[1] + grid.longStep],
       searchRadiusInMeters / 4
     );
-    const morePlaces = await traverse(subGrib, searchRadiusInMeters / 4);
+    const morePlaces = await traverse(subGrib, searchRadiusInMeters / 4, null, count + 1);
     return morePlaces;
   }
   return placesFromGoogle;
 }
 
-async function traverse(grid, searchRadiusInMeters, bar) {
+async function traverse(grid, searchRadiusInMeters, bar, count) {
+  if(count === 2){
+    console.log("Limit Exceeded!");
+    return [];
+  }
   let places = [];
   console.log("grid steps: ", grid.steps.length);
   for (let i = 0; i < grid.steps.length; i++) {
@@ -75,7 +79,8 @@ async function traverse(grid, searchRadiusInMeters, bar) {
     const gridSectionPlaces = await getAllPlaces(
       grid.steps[i],
       searchRadiusInMeters,
-      grid
+      grid,
+      count
     );
     places = places.concat(gridSectionPlaces);
   }
@@ -102,7 +107,7 @@ export async function run() {
     const bar = new ProgressBar("[:bar] :percent :etas", {
       total: grid.steps.length,
     });
-    const places = await traverse(grid, config.searchRadiusInMeters, bar);
+    const places = await traverse(grid, config.searchRadiusInMeters, bar, 0);
 
     const { placesWithDetails } = places.reduce((res, place) => {
       if (!res.placeIds.includes(place.place_id)) {
