@@ -91,7 +91,7 @@ export async function run() {
     config.longRange[0] = location.long_range[0];
     config.longRange[1] = location.long_range[1];
     
-    fs.writeFileSync('config_test.json', JSON.stringify(config));
+    fs.writeFileSync('config.json', JSON.stringify(config));
     const grid = getGrid(
       config.latRange,
       config.longRange,
