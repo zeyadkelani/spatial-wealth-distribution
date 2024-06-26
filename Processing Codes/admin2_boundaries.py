@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import math
 import json
 
-wd_file = '/Users/nourabdelbaki/Desktop/Personal/Work/Spatial/Data/egy_admbnda_adm2_capmas_20170421/egy_admbnda_adm2_capmas_20170421.shp'
+wd_file = '/Users/nourabdelbaki/Desktop/Personal/Work/Spatial/spatial-wealth-distribution/Humdata/egy_admbnda_adm2_capmas_20170421/egy_admbnda_adm2_capmas_20170421.shp'
 
 gdf = gpd.read_file(wd_file,
                     encoding='UTF-8')
@@ -16,7 +16,12 @@ plt.show()
 #### makes an exact square ####
 def to_square(polygon):
     '''
-    DOCSTRING HERE
+    This function takes a polygon and returns a square that has the same centroid
+    and the same diagonal as the polygon.
+    Input: 
+        polygon: a shapely Polygon object
+    Returns:
+        a shapely object that is a square
     '''
     # unpacking the polygon's bounds
     minx, miny, maxx, maxy = polygon.bounds
