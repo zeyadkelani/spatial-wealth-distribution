@@ -78,7 +78,7 @@ for index, row in gdf.iterrows():
     'lat_range':[row['squares'].bounds[1], row['squares'].bounds[3]],
     'long_range':[row['squares'].bounds[0], row['squares'].bounds[2]]})
 
-with open('output2.json', 'w', encoding='utf-8') as outfile:
+with open('all_admin3_boundaries.json', 'w', encoding='utf-8') as outfile:
    json.dump(data_list, outfile, ensure_ascii=False)
 
 #to read it in, use:
