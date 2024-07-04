@@ -2,10 +2,5 @@ pandas
 geopandas
 shapely
 matplotlib
-math
-json
-os
 scipy
-statistics
 seaborn
-re
