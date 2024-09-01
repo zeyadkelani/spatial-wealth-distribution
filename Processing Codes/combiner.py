@@ -7,10 +7,10 @@ import glob
 import os
 
 # path of the folder 
-path = r'C:\Users\khale\Desktop\temp_out]'
+path = r'C:\Users\khale\Desktop\Temp_out'
 
 # reading all the CSV files 
-filenames = glob.glob(r"C:\Users\khale\Desktop\temp_out]" + "/*.csv") 
+filenames = glob.glob(r"C:\Users\khale\Desktop\Temp_out" + "/*.csv") 
 print('File names:', filenames) 
 
 all_dfs = pd.DataFrame() #combining all dataframes into 1
@@ -32,6 +32,6 @@ for file in filenames:
     all_dfs = pd.concat([all_dfs, df], ignore_index=True) 
 
 all_dfs = all_dfs[all_dfs.filter(regex='^(?!Unnamed)').columns]
-out_path = r'C:\Users\khale\Desktop\temp_out]\Combined.csv'
+out_path = r'C:\Users\khale\Desktop\Temp_out\Combined.csv'
 all_dfs.to_csv(out_path, index=False)
                                                                                                                                                                                                                                                                                         

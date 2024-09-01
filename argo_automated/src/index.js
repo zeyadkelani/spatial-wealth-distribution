@@ -8,7 +8,7 @@ import { getGrid, sleep } from "./helpers.js";
 import processPlaces from"./processPlaces.js";
 const client = new Client({});
 
-const locationsFile = fs.readFileSync('../../Processing Codes/boundaries_interest.json');
+const locationsFile = fs.readFileSync('../../Processing Codes/phase2.1.json');
 const {locations} = JSON.parse(locationsFile);
 
 const numIterations = locations.length;

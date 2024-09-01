@@ -37,7 +37,7 @@ def traverse_directory(directory, output_dir):
                 convert_json_to_excel(file_path, output_dir)
 
 
-directory_path = r'C:\Users\khale\Desktop\out'  
-output_directory = r"C:\Users\khale\Desktop\temp_out]"   
+directory_path = r'C:\Users\khale\Desktop\Temp_out2'  
+output_directory = r"C:\Users\khale\Desktop\Temp_out"   
 
 traverse_directory(directory_path, output_directory)
