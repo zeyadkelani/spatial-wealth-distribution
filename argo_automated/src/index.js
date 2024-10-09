@@ -8,9 +8,8 @@ import { getGrid, sleep } from "./helpers.js";
 import processPlaces from"./processPlaces.js";
 const client = new Client({});
 
-const locationsFile = fs.readFileSync('../../Processing Codes/phase2.1.json');
+const locationsFile = fs.readFileSync('../../Processing Codes/boundaries_interest.json');
 const {locations} = JSON.parse(locationsFile);
-
 const numIterations = locations.length;
 
 async function getNearby(
@@ -22,8 +21,10 @@ async function getNearby(
   if (pagetoken) {
     await sleep(2000);
   }
-  const response = await client
-    .placesNearby({
+
+  let response;
+  try {
+    response = await client.placesNearby({
       params: {
         key: config.apiKey,
         keyword: config.searchTerm,
@@ -32,19 +33,28 @@ async function getNearby(
         language: config.language,
         pagetoken,
       },
-    })
-    .catch((e) => {
-      console.log(e);
     });
-  if (response.data.next_page_token) {
-    return getNearby(
-      searchRadiusInMeters,
-      places.concat(response.data.results),
-      latLongPoint,
-      response.data.next_page_token
-    );
+  } catch (e) {
+    console.error('Error fetching nearby places:', e);
+    return places; // Return the places collected so far
+  }
+
+  if (response && response.data && response.data.results) {
+    const nextPageToken = response.data.next_page_token;
+
+    if (nextPageToken) {
+      return getNearby(
+        searchRadiusInMeters,
+        places.concat(response.data.results),
+        latLongPoint,
+        nextPageToken
+      );
+    } else {
+      return places.concat(response.data.results);
+    }
   } else {
-    return places.concat(response.data.results);
+    console.warn('No results or invalid response format:', response);
+    return places; // Return the places collected so far
   }
 }
 
@@ -126,7 +136,7 @@ export async function run() {
       `discovered ${places.length} ${config.searchTerm}s, of which ${placesWithDetails.length} are unique`
     );
     
-    const outputFolder = `out/output_${location.ADM2}_poi_${config.searchTerm}`;
+    const outputFolder = `out/output_${location.ADM1}_poi_${config.searchTerm}`;
 
     const processedPlaces = processPlaces(placesWithDetails);
     if (!existsSync(outputFolder)) {
